@@ -21,7 +21,6 @@ const DecryptModuleView = () => {
       setDisplayEncryptedData( dataDecrypt );
     } catch ( error ) {
       console.log( 'error: ', error );
-
     }
   }, [] );
   return ( <div className={ style.layout }>
