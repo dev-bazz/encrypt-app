@@ -1,0 +1,353 @@
+/* Base styles */
+@layer base {
+	/**
+   * Created by: Clement Femi Bazuaye
+   * Github: https://github.com/dev-bazz
+   * LinkedIn: https://www.linkedin.com/in/devbazz/
+   * Email: bazuaye50@gmail.com
+   */
+
+	/* Universal Reset */
+	:is(*, *::before, *::after) {
+		box-sizing: border-box;
+		padding: 0;
+		color: var(--text-base, inherit);
+		//!DEBUG-MODE: Check Overflowing content
+		// outline: 2px solid magenta !important;
+		// background: hsl(0 100% 50%/.1) !important;
+	}
+
+	/* Margin Reset */
+	:is(body, h1, h2, h3, h4, p, figure, blockquote, dl, dd, ul, ol) {
+		margin: 0;
+	}
+
+	/* Body Styles */
+	:is(body) {
+		min-height: 100svh;
+		text-rendering: optimizeSpeed;
+		line-height: 1.5;
+		font-family: var(
+				--font,
+				system-ui,
+				-apple-system,
+				Segoe UI,
+				Roboto,
+				Ubuntu,
+				Cantarell,
+				Noto Sans,
+				sans-serif
+			),
+			sans-serif;
+		background-color: var(--bg-base, inherit);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Smooth Scrolling */
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Float Helper */
+	[float-root] {
+		display: flow-root;
+	}
+
+	/* Letter Spacing */
+	[data-letter-space] {
+		letter-spacing: calc(var(--letter-spacing, 10) * 0.01em);
+	}
+
+	[data-letter-space='loose'] {
+		--letter-spacing: 25;
+	}
+
+	[data-letter-space='tight'] {
+		--letter-spacing: -5;
+	}
+
+	/* Font Size Inflation Prevention */
+	:is(html) {
+		-moz-text-size-adjust: none;
+		-webkit-text-size-adjust: none;
+		text-size-adjust: none;
+	}
+
+	/* Line Height for Headings and Buttons */
+	:is(h1, h2, h3, h4, button, input, label) {
+		line-height: 1.1;
+	}
+
+	/* Anchor Styles */
+	:is(a) {
+		text-decoration: none;
+		background-color: transparent;
+		color: inherit;
+		cursor: pointer;
+	}
+
+	/* Autofill Styles */
+	:is(
+			input:-webkit-autofill,
+			input:-webkit-autofill:hover,
+			input:-webkit-autofill:focus,
+			input:-webkit-autofill:active
+		) {
+		background-color: inherit;
+		color: inherit;
+		-webkit-text-fill-color: inherit;
+		font-weight: inherit;
+		transition: background-color 5000s ease-in-out,
+			color 5000s ease-in-out;
+	}
+}
+
+/* Typography */
+@layer typography {
+	:is(h1, h2, h3, h4, h5, h6) {
+		text-wrap: balance;
+	}
+
+	:is(p, li, figcaption) {
+		max-width: 64ch;
+		text-wrap: pretty;
+		line-height: 1.5;
+	}
+}
+
+/* Lists */
+@layer lists {
+	:is(ul, ol) {
+		list-style: none;
+	}
+}
+
+/* Images and videos */
+@layer media {
+	:is(img, picture, video) {
+		max-width: 100%;
+		height: auto;
+		object-fit: cover;
+		vertical-align: middle;
+		display: inline-block;
+	}
+}
+
+/* Layout */
+@layer layout {
+	:is(footer, main, nav, aside, section, article) {
+		container-type: inline-size;
+		width: -webkit-fill-available;
+	}
+
+	[data-container] {
+		max-width: var(--container-max);
+		margin-inline: auto;
+	}
+}
+
+// * Details Element Setting
+@layer details {
+	:is(details > summary) {
+		list-style: none;
+		cursor: pointer;
+	}
+	:is(
+			details > summary::marker,
+			details > summary::-webkit-details-marker
+		) {
+		display: none;
+	}
+	@supports (interpolate-size: allow-keywords) {
+		:root {
+			interpolate-size: allow-keywords;
+		}
+	}
+}
+
+// * Dialog Element Setting
+@layer dialog-element {
+	dialog {
+		--bd-color: rgba(64, 64, 64, 0.419);
+		transition: display 1s allow-discrete, overlay 1s allow-discrete,
+			scale 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+		scale: 0;
+		&[open] {
+			transition: display 1s allow-discrete, overlay 1s allow-discrete,
+				scale 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+			scale: 1;
+			@starting-style {
+				scale: 0;
+			}
+			&::backdrop {
+				opacity: 1;
+				@starting-style {
+					opacity: 0;
+				}
+			}
+		}
+		&::backdrop {
+			background-color: var(--bd-color);
+			transition: opacity 1s;
+			opacity: 0;
+		}
+	}
+}
+
+// * Form Element Setting
+@layer form-elements {
+	:is(button, input, textarea, select) {
+		cursor: pointer;
+	}
+	:is(
+			button,
+			input:not([type='checkbox'], [type='radio']),
+			textarea,
+			select
+		) {
+		font: inherit;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		outline: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+
+	:is(textarea) {
+		resize: vertical;
+		field-sizing: content;
+	}
+
+	input[type='search'] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+
+	input[type='number']::-webkit-outer-spin-button,
+	input[type='number']::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	input[type='number'] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+	}
+
+	input,
+	button,
+	textarea,
+	select {
+		font-family: inherit;
+		font-size: inherit;
+	}
+
+	:is(select[data-select-placeholder]) {
+		--placeholder-color: rgb(135, 135, 135);
+	}
+
+	:is(
+			select[data-select-placeholder]:focus-within option:first-child
+		) {
+		display: none;
+	}
+
+	:is(select[data-select-placeholder]:invalid) {
+		color: var(--placeholder-color);
+	}
+
+	:is(textarea:not([rows])) {
+		min-height: 10em;
+	}
+
+	:is(label:has(input, textarea, select, div)) {
+		display: grid;
+		gap: 0.5rem;
+		cursor: pointer;
+	}
+}
+
+// * Root Setting
+@layer root-selector {
+	:root {
+		--scroll-margin: 5ex;
+	}
+	[data-scroll-margin='sm'] {
+		scroll-margin-block: var(--scroll-margin, 5ex);
+	}
+	[data-scroll-margin='md'] {
+		scroll-margin-block: calc(var(--scroll-margin, 5ex) * 2);
+	}
+	[data-scroll-margin='lg'] {
+		scroll-margin-block: calc(var(--scroll-margin, 5ex) * 3);
+	}
+	:target {
+		scroll-margin-block: var(--scroll-margin, 5ex);
+	}
+	::selection {
+		background-color: var(--selection-bg, #0275d8);
+		color: var(--selection-color, white);
+	}
+	:focus-visible {
+		outline: var(--outline-size, 0.125rem) solid
+			var(--outline-color, black);
+		outline-offset: var(--outline-offset, 0.125rem);
+	}
+}
+
+// * Table Element Setting
+@layer table {
+	:is(table) {
+		--thead-color: #f2f2f2;
+		--column-start: fit-content;
+		--column-end: fit-content;
+		--max-width: 1200px;
+		max-width: var(--max-width);
+		border-collapse: collapse;
+		border-spacing: 0;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		text-align: left;
+		table-layout: fixed;
+		border: none;
+	}
+	:is(th:first-child, td:first-child) {
+		width: var(--column-start);
+	}
+	:is(th:last-child, td:last-child) {
+		width: var(--column-end);
+	}
+	:is(table tr:hover:not(tr:has(th))) {
+		background-color: #fcfcfc;
+	}
+	:is(th, td) {
+		padding: 0.5rem;
+		margin: 0;
+		vertical-align: top;
+		font-weight: normal;
+		border: 1px solid #ddd;
+	}
+	:is(tr:has(th)) {
+		background-color: var(--thead-color);
+	}
+}
+
+// * Accessibility Element Setting
+@layer accessibility {
+	@media (prefers-reduced-motion: reduce) {
+		:is(html:focus-within) {
+			scroll-behavior: auto;
+		}
+		:is(*, *::before, *::after) {
+			animation-duration: 0.01ms;
+			animation-iteration-count: 1;
+			transition-duration: 0.01ms;
+			scroll-behavior: auto;
+		}
+	}
+}
